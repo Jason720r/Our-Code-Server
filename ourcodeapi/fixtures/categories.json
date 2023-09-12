@@ -1,0 +1,16 @@
+[
+    {
+        "model": "ourcodeapi.category",
+        "pk": 1,
+        "fields": {
+            "label": "Project"
+        }
+    },
+    {
+        "model": "ourcodeapi.category",
+        "pk": 2,
+        "fields": {
+            "label": "Game Night"
+        }
+    }
+]

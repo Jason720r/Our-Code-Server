@@ -1,0 +1,10 @@
+[
+    {
+        "model": "ourcodeapi.coder",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "bio": "Test Test"
+        }
+    }
+]
