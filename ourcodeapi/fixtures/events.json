@@ -1,0 +1,15 @@
+[
+    {
+        "model": "ourcodeapi.event",
+        "pk": 1,
+        "fields": {
+            "name": "IDK",
+            "organizer": 1,
+            "number_of_people": 28,
+            "description": "Pregame before the game must I say more?",
+            "location": "499 Dante Drive",
+            "type": 1,
+            "date": "2002-03-21"
+        }
+    }
+]

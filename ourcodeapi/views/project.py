@@ -16,5 +16,7 @@ class ProjectView(ViewSet):
         serializer = ProjectSerializer(project, many=True)
         return Response(serializer.data)
 class ProjectSerializer(serializers.ModelSerializer):
-    model = Project
-    fields = ('id', 'title', 'description', 'date', 'poster')
+    class Meta:
+        model = Project
+        depth = 1
+        fields = ('id', 'title', 'description', 'url', 'creator')

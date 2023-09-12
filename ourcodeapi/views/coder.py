@@ -19,4 +19,5 @@ class CoderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Coder
+        depth = 1
         fields = ('id','user', 'bio')

@@ -1,0 +1,12 @@
+[
+    {
+        "model": "ourcodeapi.post",
+        "pk": 1,
+        "fields": {
+            "title": "I HATE CSS",
+            "description": "Must I really say more?",
+            "date": "2002-03-21",
+            "poster": 1
+        }
+    }
+]
