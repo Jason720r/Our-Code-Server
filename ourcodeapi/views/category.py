@@ -9,6 +9,7 @@ class CategoryView(ViewSet):
     def retrieve(self, request, pk):
         category = Category.objects.get(pk=pk)
         serializer = CategorySerializer(category)
+        return Response(serializer.data)
 
 
     def list(self, request):

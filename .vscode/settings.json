@@ -3,4 +3,7 @@
     "--load-plugins=pylint_django",
     "--django-settings-module=ourcode.settings",
 ],
+"cSpell.words": [
+    "ourcodeapi"
+],
 }
