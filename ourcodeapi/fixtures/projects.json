@@ -1,0 +1,12 @@
+[
+    {
+        "model": "ourcodeapi.project",
+        "pk": 1,
+        "fields": {
+            "title": "Our Code",
+            "description": "Final Capstone",
+            "url": "https://github.com/Jason720r/Our-Code-Server",
+            "creator": 1
+        }
+    }
+]

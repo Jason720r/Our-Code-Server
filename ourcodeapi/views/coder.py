@@ -15,8 +15,10 @@ class CoderView(ViewSet):
         coder = Coder.objects.all()
         serializer = CoderSerializer(coder, many=True)
         return Response(serializer.data)
+    
 class CoderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Coder
+        depth = 1
         fields = ('id','user', 'bio')
