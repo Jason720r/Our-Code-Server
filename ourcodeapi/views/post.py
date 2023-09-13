@@ -32,6 +32,20 @@ class PostView(ViewSet):
         post = Post.objects.get(pk=pk)
         post.delete()
         return Response(None, status= status.HTTP_204_NO_CONTENT)
+    
+    def update(self, request, pk):
+
+        post = Post.objects.get(pk=pk)
+        post.title = request.data["title"]
+        post.description = request.data["description"]
+        post.date = request.data["date"]
+        
+        poster = Coder.objects.get(pk=request.data["poster"])
+        post.poster = poster
+        post.save()
+
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
         
 class PostSerializer(serializers.ModelSerializer):
 
