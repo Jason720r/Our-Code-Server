@@ -49,9 +49,15 @@ class CoderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coder
         fields = ('id', 'bio', 'user')
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'label')
     
 class EventSerializer(serializers.ModelSerializer):
     organizer = CoderSerializer()
+    type = CategorySerializer()
 
     class Meta:
         model = Event
