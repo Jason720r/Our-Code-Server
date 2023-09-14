@@ -3,6 +3,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from ourcodeapi.models import Event, Coder, Category
+from django.contrib.auth.models import User
 
 class EventView(ViewSet):
 
@@ -36,10 +37,22 @@ class EventView(ViewSet):
         event = Event.objects.get(pk=pk)
         event.delete()
         return Response(None, status= status.HTTP_204_NO_CONTENT)
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email')
+
+class CoderSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Coder
+        fields = ('id', 'bio', 'user')
     
 class EventSerializer(serializers.ModelSerializer):
+    organizer = CoderSerializer()
 
     class Meta:
         model = Event
-        depth = 1
         fields = ('id', 'organizer', 'number_of_people', 'description', 'location', 'type', 'date')
