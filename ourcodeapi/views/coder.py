@@ -5,8 +5,11 @@ from rest_framework import serializers, status
 from django.shortcuts import get_object_or_404
 from ourcodeapi.models import Coder
 from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticated
+
 
 class CoderView(ViewSet):
+    permission_classes = [IsAuthenticated]
 
     def retrieve(self, request, pk):
         coder = Coder.objects.get(pk=pk)
@@ -14,8 +17,8 @@ class CoderView(ViewSet):
         return Response(serializer.data)
     
     def list(self, request):
-        coder = Coder.objects.all()
-        serializer = CoderSerializer(coder, many=True)
+        coder = Coder.objects.get(user=request.user)
+        serializer = CoderSerializer(coder)
         return Response(serializer.data)
     
     def update(self, request, pk):

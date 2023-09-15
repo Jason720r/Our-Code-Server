@@ -24,6 +24,7 @@ class EventView(ViewSet):
 
         event = Event.objects.create(
         organizer = organizer_instance,
+        name = request.data["name"],
         number_of_people = request.data["number_of_people"],
         description = request.data["description"],
         location = request.data["location"],
@@ -37,6 +38,36 @@ class EventView(ViewSet):
         event = Event.objects.get(pk=pk)
         event.delete()
         return Response(None, status= status.HTTP_204_NO_CONTENT)
+    
+    def update(self, request, pk=None):
+
+    # Retrieve the event instance
+        event = Event.objects.get(pk=pk)
+
+    # Use the existing organizer or find a new one based on the request data
+        if "organizer" in request.data:
+            organizer_instance = Coder.objects.get(pk=request.data["organizer"])
+            event.organizer = organizer_instance
+
+    # Use the existing category or find a new one based on the request data
+        if "type" in request.data:
+            type_instance = Category.objects.get(pk=request.data["type"])
+            event.type = type_instance
+
+    # Update other event attributes
+        event.name = request.data.get("name", event.name)
+        event.number_of_people = request.data.get("number_of_people", event.number_of_people)
+        event.description = request.data.get("description", event.description)
+        event.location = request.data.get("location", event.location)
+        event.date = request.data.get("date", event.date)
+
+    # Save the updated event
+        event.save()
+
+    # Serialize and return the updated event
+        serializer = EventSerializer(event)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,4 +92,4 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ('id', 'organizer', 'number_of_people', 'description', 'location', 'type', 'date')
+        fields = ('id', 'organizer', 'number_of_people', 'description', 'location', 'type', 'date', 'name')
