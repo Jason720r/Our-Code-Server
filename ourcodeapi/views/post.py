@@ -3,6 +3,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from ourcodeapi.models import Post, Coder
+from django.contrib.auth.models import User
 
 class PostView(ViewSet):
 
@@ -32,10 +33,36 @@ class PostView(ViewSet):
         post = Post.objects.get(pk=pk)
         post.delete()
         return Response(None, status= status.HTTP_204_NO_CONTENT)
+    
+    def update(self, request, pk):
+
+        post = Post.objects.get(pk=pk)
+        post.title = request.data["title"]
+        post.description = request.data["description"]
+        post.date = request.data["date"]
         
+        poster = Coder.objects.get(pk=request.data["poster"])
+        post.poster = poster
+        post.save()
+
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'username', 'email')
+
+class CoderSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Coder
+        fields = ('id', 'bio', 'user')
+
+
 class PostSerializer(serializers.ModelSerializer):
+    poster = CoderSerializer()
 
     class Meta:
         model = Post
-        depth = 1
         fields = ('id', 'title', 'description', 'date', 'poster') 
