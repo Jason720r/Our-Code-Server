@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.conf.urls import include
 from django.urls import path
-from ourcodeapi.views import register_user, login_user, CategoryView, PostView, CoderView, ProjectView, EventView
+from ourcodeapi import views
+from ourcodeapi.views import register_user, login_user, CategoryView, PostView, CoderView, ProjectView, EventView, AttendEvent
 from rest_framework import routers
 
 router = routers.DefaultRouter(trailing_slash=False)
@@ -16,4 +17,6 @@ urlpatterns = [
     path('login', login_user),
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path('event/<int:event_id>/attend/', views.AttendEvent.as_view(), name='attend-event'),
+
 ]
