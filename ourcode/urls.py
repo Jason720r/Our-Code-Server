@@ -5,6 +5,7 @@ from ourcodeapi import views
 from ourcodeapi.views import register_user, login_user, CategoryView, PostView, CoderView, ProjectView, EventView, AttendEvent
 from rest_framework import routers
 
+
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'categories', CategoryView, 'category')
 router.register(r'posts', PostView, 'post')
@@ -20,3 +21,4 @@ urlpatterns = [
     path('event/<int:event_id>/attend/', views.AttendEvent.as_view(), name='attend-event'),
 
 ]
+

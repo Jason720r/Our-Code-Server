@@ -12,9 +12,14 @@ class ProjectView(ViewSet):
         return Response(serializer.data)
     
     def list(self, request):
-        project = Project.objects.all()
-        serializer = ProjectSerializer(project, many=True)
+        user_id = request.query_params.get('user_id', None)
+        if user_id:
+            projects = Project.objects.filter(creator__user__id=user_id)
+        else:
+            projects = Project.objects.all()
+        serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
+
     
     def create(self, request):
 
