@@ -31,6 +31,12 @@ class EventView(ViewSet):
         type = type_instance,
         date = request.data["date"]
     )
+        attendee_ids = request.data.get("attendees", [])
+        for attendee_id in attendee_ids:
+            attendee = Coder.objects.get(pk=attendee_id)
+            event.attendees.add(attendee)
+        event.save()
+
         serializer = EventSerializer(event)
         return Response(serializer.data)
     
@@ -89,7 +95,8 @@ class CategorySerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     organizer = CoderSerializer()
     type = CategorySerializer()
+    attendees = CoderSerializer(many=True)
 
     class Meta:
         model = Event
-        fields = ('id', 'organizer', 'number_of_people', 'description', 'location', 'type', 'date', 'name')
+        fields = ('id', 'organizer', 'number_of_people', 'description', 'location', 'type', 'date', 'name', 'attendees')

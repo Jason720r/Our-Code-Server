@@ -1,3 +1,5 @@
+
+
 """
 Django settings for ourcode project.
 
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'social_django',
     'corsheaders',
     'ourcodeapi',
 ]
@@ -140,3 +143,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '807043030534-ssqlb6rge701v7aisge3n2uj8lqs42k3.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = '/posts'
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+

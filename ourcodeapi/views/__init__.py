@@ -4,3 +4,5 @@ from .post import PostView
 from .coder import CoderView
 from .event import EventView
 from .project import ProjectView
+from .attendee_view import AttendEvent
+from .comment import CommentView
