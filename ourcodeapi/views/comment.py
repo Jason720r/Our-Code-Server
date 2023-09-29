@@ -69,10 +69,19 @@ class CommentView(ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Comment.DoesNotExist:
             return Response({'message': 'Comment not found.'}, status=status.HTTP_404_NOT_FOUND)
+from django.contrib.auth.models import User
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name', 'last_name', 'email')  # Include any other fields if needed
+
+
 class CoderSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
     class Meta:
         model = Coder
-        fields = ('user', 'bio')       
+        fields = ('id', 'user', 'bio')       
 
 class CommentSerializer(serializers.ModelSerializer):
         author = CoderSerializer()
