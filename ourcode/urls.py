@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.conf.urls import include
 from django.urls import path
 from ourcodeapi import views
-from ourcodeapi.views import register_user, login_user, CategoryView, PostView, CoderView, ProjectView, EventView, AttendEvent, google_login, CommentView
+from ourcodeapi.views import register_user, login_user, CategoryView, PostView, CoderView, ProjectView, EventView, AttendEvent, google_login, CommentView, fetch_latest_news
 from rest_framework import routers
 
 
@@ -15,6 +15,7 @@ router.register(r'events', EventView, 'event')
 router.register(r'comments', CommentView, 'comment')
 
 urlpatterns = [
+    path('latest-news/', views.fetch_latest_news, name='latest-news'),
     path('register', register_user),
     path('login', login_user),
     path('admin/', admin.site.urls),
