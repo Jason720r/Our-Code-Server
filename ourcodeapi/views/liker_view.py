@@ -22,4 +22,4 @@ class PostLiker(APIView):
         liker = Coder.objects.get(user=request.user)
         post.likers.remove(liker)
 
-        return Response({"message": "Un-liked post ;("}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "Un-liked post ;("}, status=status.HTTP_200_OK)

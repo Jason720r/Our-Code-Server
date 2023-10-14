@@ -7,3 +7,4 @@ from .project import ProjectView
 from .attendee_view import AttendEvent
 from .comment import CommentView
 from .external_api import fetch_latest_news
+from .liker_view import PostLiker
