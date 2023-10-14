@@ -27,8 +27,10 @@ class PostView(ViewSet):
         date = request.data["date"],
         poster = poster_instance
     )
+
         serializer = PostSerializer(post)
         return Response(serializer.data)
+    
     def destroy(self, request, pk):
         post = Post.objects.get(pk=pk)
         post.delete()
