@@ -27,6 +27,11 @@ class PostView(ViewSet):
         date = request.data["date"],
         poster = poster_instance
     )
+        liker_ids = request.data.get("likers", [])
+        for liker_id in liker_ids:
+            liker = Coder.objects.get(pk=liker_id)
+            post.likers.add(liker)
+        post.save()
 
         serializer = PostSerializer(post)
         return Response(serializer.data)
@@ -39,12 +44,17 @@ class PostView(ViewSet):
     def update(self, request, pk):
 
         post = Post.objects.get(pk=pk)
+
         post.title = request.data["title"]
         post.description = request.data["description"]
         post.date = request.data["date"]
         
         poster = Coder.objects.get(pk=request.data["poster"])
         post.poster = poster
+
+        liker = Coder.objects.get(user=request.user)
+        if not post.likers.filter(id=liker.id).exists():
+            post.likers.add(liker)
         post.save()
 
         serializer = PostSerializer(post)
@@ -64,7 +74,8 @@ class CoderSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     poster = CoderSerializer()
+    likers = CoderSerializer
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'date', 'poster') 
+        fields = ('id', 'title', 'description', 'date', 'poster', 'likers') 

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.conf.urls import include
 from django.urls import path
 from ourcodeapi import views
-from ourcodeapi.views import register_user, login_user, CategoryView, PostView, CoderView, ProjectView, EventView, AttendEvent, google_login, CommentView, fetch_latest_news
+from ourcodeapi.views import register_user, login_user, CategoryView, PostView, CoderView, ProjectView, EventView, AttendEvent, google_login, CommentView, fetch_latest_news, PostLiker
 from rest_framework import routers
 
 
@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
     path('event/<int:event_id>/attend/', views.AttendEvent.as_view(), name='attend-event'),
+    path('post/<int:post_id>/like/', views.PostLiker.as_view(), name='like-post'),
     # path('google-login/', google_login, name='google-login'),
     path('auth/', include('social_django.urls', namespace='social')),
 ]
