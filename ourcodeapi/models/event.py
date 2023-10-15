@@ -9,3 +9,4 @@ class Event(models.Model):
     location = models.CharField(max_length=200)
     type = models.ForeignKey("Category", on_delete=models.CASCADE, related_name='type')
     date = models.DateField()
+    likers = models.ManyToManyField("Coder", related_name="event_coder_liked")
