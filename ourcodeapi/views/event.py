@@ -37,6 +37,12 @@ class EventView(ViewSet):
             event.attendees.add(attendee)
         event.save()
 
+        liker_ids = request.data.get("likers", [])
+        for liker_id in liker_ids:
+            liker = Coder.objects.get(pk=liker_id)
+            event.likers.add(liker)
+        event.save()
+
         serializer = EventSerializer(event)
         return Response(serializer.data)
     
@@ -67,6 +73,10 @@ class EventView(ViewSet):
         event.location = request.data.get("location", event.location)
         event.date = request.data.get("date", event.date)
 
+        liker = Coder.objects.get(user=request.user)
+        if not event.likers.filter(id=liker.id).exists():
+            event.likers.add(liker)
+
     # Save the updated event
         event.save()
 
@@ -96,7 +106,8 @@ class EventSerializer(serializers.ModelSerializer):
     organizer = CoderSerializer()
     type = CategorySerializer()
     attendees = CoderSerializer(many=True)
+    likers = CoderSerializer
 
     class Meta:
         model = Event
-        fields = ('id', 'organizer', 'number_of_people', 'description', 'location', 'type', 'date', 'name', 'attendees')
+        fields = ('id', 'organizer', 'number_of_people', 'description', 'location', 'type', 'date', 'name', 'attendees', 'likers')
