@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.conf.urls import include
 from django.urls import path
 from ourcodeapi import views
-from ourcodeapi.views import register_user, login_user, CategoryView, PostView, CoderView, ProjectView, EventView, AttendEvent, google_login, CommentView, fetch_latest_news, PostLiker, EventLiker
+from ourcodeapi.views import register_user, login_user, CategoryView, PostView, CoderView, ProjectView, EventView, AttendEvent, google_login, CommentView, fetch_latest_news, GroupView
 from rest_framework import routers
 
 
@@ -12,6 +12,7 @@ router.register(r'posts', PostView, 'post')
 router.register(r'coders', CoderView, 'coder')
 router.register(r'projects', ProjectView, 'project')
 router.register(r'events', EventView, 'event')
+router.register(r'groups', GroupView, 'group')
 router.register(r'comments', CommentView, 'comment')
 
 urlpatterns = [
