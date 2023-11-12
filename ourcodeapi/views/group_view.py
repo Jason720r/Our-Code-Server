@@ -15,6 +15,23 @@ class GroupView(ViewSet):
         group = Group.objects.all()
         serializer = GroupSerializer(group, many=True)
         return Response(serializer.data)
+    def create(self, request):
+
+        creator_instance = Coder.objects.get(user=request.user)
+
+        group = Group.objects.create(
+        creator = creator_instance,
+        name = request.data["name"],
+        description = request.data["description"]
+        )
+        moderator_ids = request.data.get("moderators", [])
+        for moderator_id in moderator_ids:
+            moderator = Coder.objects.get(pk=moderator_id)
+            group.moderators.add(moderator)
+        group.save()
+
+        # group_users = request.data.get("group_users", [])
+        
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,6 +52,6 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Group
-        fields = ('id', 'creator', 'moderator', 'group_user', 'description')
+        fields = ('id', 'name', 'creator', 'moderator', 'group_user', 'description')
     
     
