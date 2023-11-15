@@ -30,9 +30,36 @@ class GroupView(ViewSet):
             group.moderators.add(moderator)
         group.save()
 
-        # group_users = request.data.get("group_users", [])
+        group_users = request.data.get("group_users", [])
+        for group_user in group_users:
+            group_user = Coder.objects.get(pk=group_user)
+            group.group_users.add(group_user)
+        group.save()
         
+        serializer = GroupSerializer(group)
+        return Response(serializer.data)
+    
+    def destroy(self, request, pk):
+        group = Group.objects.get(pk=pk)
+        group.delete()
+        return Response(None, status = status.HTTP_204_NO_CONTENT)
 
+    def update(self, request, pk=None):
+
+        group = Group.objects.get(pk=pk)
+
+        if "moderator" in request.data:
+            moderator_instance = Coder.objects.get(pk=request.data["moderator"])
+            group.moderator = moderator_instance
+
+        group.name = request.data.get("name", group.name)
+        group.description = request.data.get("description", group.description)
+
+        group.save()
+
+        serializer = GroupSerializer(group)
+        return Response(serializers.data, status=status.HTTP_200_OK)
+    
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
