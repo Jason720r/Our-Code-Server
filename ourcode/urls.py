@@ -24,7 +24,7 @@ urlpatterns = [
     path('event/<int:event_id>/attend/', views.AttendEvent.as_view(), name='attend-event'),
     path('post/<int:post_id>/like/', views.PostLiker.as_view(), name='like-post'),
     path('event/<int:event_id>/like/', views.EventLiker.as_view(), name='like-event'),
-    # path('google-login/', google_login, name='google-login'),
+    # path('google-login/', google_login(), name='google-login'),
     path('auth/', include('social_django.urls', namespace='social')),
 ]
 
